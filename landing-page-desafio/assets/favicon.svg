@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="16" fill="#153d3b"/>
+  <!-- Uma pequena base se transforma em uma empresa em expansao. -->
+  <g fill="#e8f2c6">
+    <rect x="13" y="39" width="9" height="12" rx="2"/>
+    <rect x="27" y="28" width="10" height="23" rx="2"/>
+    <path d="M44 13h5a2 2 0 0 1 2 2v34a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2V15a2 2 0 0 1 2-2Z"/>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+# Configurações locais dos editores
+.vscode/
+.idea/
+
+# Capturas usadas para conferir a página
+landing-page-desafio/preview-*.jpg
+
+# Variáveis de ambiente e credenciais locais
+.env
+.env.*
+!.env.example
+!.env.sample
+.aws/
+*.pem
+*.key
+
+# Dependências e logs locais
+node_modules/
+*.log
+
+# Arquivos gerados pelo sistema operacional
+.DS_Store
+Thumbs.db
+Desktop.ini
