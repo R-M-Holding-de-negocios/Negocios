@@ -13,6 +13,7 @@ Para visualizar, abra `index.html` no navegador ou use um servidor local, como a
 - `index.html`: conteúdo, oferta de R$37, navegação e perguntas frequentes.
 - `styles.css`: cores, tipografia e layout para celular e computador.
 - `main.js`: menu de navegação no celular.
+- `visit-bar.js`: barra fixa e cronômetro desde a primeira visita.
 - `config.js`: endereço do checkout da Kiwify.
 - `assets/mockup-ebook.png`: mockup fornecido no projeto.
 - `assets/favicon.svg`: ícone do site.
@@ -28,6 +29,10 @@ Enquanto o endereço não estiver definido, o botão mostra “Vendas em breve�
 Os links de contato do rodapé continuam no WhatsApp da A-nfc: https://wa.me/message/HHMYTHKZZHEPG1. Não há pagamento, envio automático ou garantia comercial simulados. Configure o checkout e confira as condições de venda antes de publicar.
 
 ## Publicação
+
+A barra vermelha aparece após 10 segundos na primeira visita e imediatamente nas seguintes. O horário inicial fica na chave `desafio-first-visit-at` do `localStorage`; apagar os dados do site reinicia a contagem. Se o armazenamento estiver bloqueado, o cronômetro funciona apenas durante a visita atual. As horas continuam aumentando após 24 horas.
+
+Para executar os testes do cronômetro, use `node --test` (Node.js necessário apenas para os testes).
 
 Envie o conteúdo desta pasta para uma hospedagem de sites estáticos, preservando o diretório `assets`. Nenhuma publicação foi realizada nesta tarefa.
 
