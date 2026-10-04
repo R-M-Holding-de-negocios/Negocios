@@ -32,6 +32,8 @@ Os links de contato do rodapé continuam no WhatsApp da A-nfc: https://wa.me/mes
 
 A barra vermelha aparece após 10 segundos na primeira visita e imediatamente nas seguintes. O horário inicial fica na chave `desafio-first-visit-at` do `localStorage`; apagar os dados do site reinicia a contagem. Se o armazenamento estiver bloqueado, o cronômetro funciona apenas durante a visita atual. As horas continuam aumentando após 24 horas.
 
+Os dígitos do cronômetro deslizam verticalmente, com efeito inspirado no Counter do React Bits e implementado em JavaScript e CSS, sem dependências. A preferência de movimento reduzido do sistema desativa a animação.
+
 Para executar os testes do cronômetro, use `node --test` (Node.js necessário apenas para os testes).
 
 Envie o conteúdo desta pasta para uma hospedagem de sites estáticos, preservando o diretório `assets`. Nenhuma publicação foi realizada nesta tarefa.

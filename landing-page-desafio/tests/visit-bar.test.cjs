@@ -5,7 +5,16 @@ const vm = require('node:vm');
 
 function visit(storage, now, blocked = false) {
   const bar = { hidden: true, getBoundingClientRect: () => ({ height: 84 }) };
-  const timer = { textContent: '' };
+  function element() {
+    return {
+      textContent: '', children: [], attributes: {}, style: {}, animations: [],
+      append(...nodes) { this.children.push(...nodes); },
+      replaceChildren(...nodes) { this.children = nodes; },
+      setAttribute(key, value) { this.attributes[key] = value; },
+      animate(frames, options) { this.animations.push({ frames, options }); }
+    };
+  }
+  const timer = element();
   const properties = {};
   const callbacks = {};
   let timeout;
@@ -13,6 +22,7 @@ function visit(storage, now, blocked = false) {
   const context = {
     Date: { now: () => now },
     document: {
+      createElement: element,
       querySelector: selector => selector === '.visit-bar' ? bar : timer,
       documentElement: { style: { setProperty: (key, value) => { properties[key] = value; } } },
       addEventListener: (event, callback) => { callbacks[event] = callback; }
@@ -40,7 +50,7 @@ test('first visit saves its start immediately and reveals only after ten seconds
   page.advance(110000);
   page.timeout.callback();
   assert.equal(page.bar.hidden, false);
-  assert.equal(page.timer.textContent, '00:00:10');
+  assert.equal(page.timer.attributes['aria-label'], '00:00:10');
   assert.equal(page.properties['--visit-bar-height'], '84px');
 });
 
@@ -50,10 +60,10 @@ test('reopening shows immediately and counts time spent closed without resetting
   const reopened = visit(storage, 3761000);
   assert.equal(reopened.bar.hidden, false);
   assert.equal(reopened.timeout, undefined);
-  assert.equal(reopened.timer.textContent, '01:01:01');
+  assert.equal(reopened.timer.attributes['aria-label'], '01:01:01');
   assert.equal(Object.values(storage)[0], '100000');
   reopened.advance(360100000);
-  assert.equal(reopened.timer.textContent, '100:00:00');
+  assert.equal(reopened.timer.attributes['aria-label'], '100:00:00');
 });
 
 test('unavailable storage does not prevent the bar from working', () => {
@@ -61,7 +71,18 @@ test('unavailable storage does not prevent the bar from working', () => {
   page.timeout.callback();
   page.advance(102000);
   assert.equal(page.bar.hidden, false);
-  assert.equal(page.timer.textContent, '00:00:02');
+  assert.equal(page.timer.attributes['aria-label'], '00:00:02');
+});
+
+test('seconds roll from nine to zero and retain an accessible time', () => {
+  const page = visit({ 'desafio-first-visit-at': '100000' }, 109000);
+  const units = page.timer.children[7].children[0];
+  page.advance(110000);
+  assert.equal(page.timer.attributes['aria-label'], '00:00:10');
+  assert.equal(units.style.transform, 'translateY(0em)');
+  assert.equal(units.animations.length, 1);
+  assert.equal(units.animations[0].frames[0].transform, 'translateY(-9em)');
+  assert.equal(units.animations[0].frames[1].transform, 'translateY(-10em)');
 });
 
 test('invalid or future saved dates start a new first visit', () => {
